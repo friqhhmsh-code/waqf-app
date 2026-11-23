@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>وقف | تحدي نفسك</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#101827;color:#fff;
+ font-family:Arial,sans-serif;padding:20px;
+}
+header{text-align:center;padding:20px}
+header h1{font-size:35px;color:#4ade80;margin:5px}
+header p{color:#9ca3af}
+.card{
+ background:#1c293b;border:1px solid #344258;
+ border-radius:20px;padding:22px;margin:16px 0;
+}
+.center{text-align:center}
+.days{font-size:65px;color:#4ade80;font-weight:bold}
+.muted{color:#9ca3af}
+button{
+ border:0;border-radius:12px;padding:14px;
+ font-size:16px;font-weight:bold;cursor:pointer;
+}
+.green{background:#22c55e;color:#07130b;width:100%}
+.secondary{background:#334155;color:white;width:100%;margin-top:10px}
+.progress{
+ height:12px;background:#334155;border-radius:20px;
+ overflow:hidden;margin:15px 0
+}
+.bar{height:100%;width:0;background:#4ade80;transition:.3s}
+.task{
+ display:flex;align-items:center;gap:12px;
+ padding:12px 0;border-bottom:1px solid #344258
+}
+.task input{width:20px;height:20px;accent-color:#22c55e}
+.quote{color:#86efac;font-size:18px;line-height:1.7}
+footer{text-align:center;color:#64748b;padding:25px}
+</style>
+</head>
+<body>
+
+<header>
+ <h1>🌱 وَقْف</h1>
+ <p>كل يوم فرصة جديدة لتكون أقوى</p>
+</header>
+
+<div class="card center">
+ <p class="muted">أيام الالتزام</p>
+ <div class="days" id="days">0</div>
+ <p class="muted">يوم من التغيير 💪</p>
+ <div class="progress"><div class="bar" id="bar"></div></div>
+ <p id="target">هدفك القادم: 7 أيام</p>
+</div>
+
+<div class="card center">
+ <h3>🔥 إنجاز اليوم</h3>
+ <p id="status">ابدأ يومك بقرار جديد</p>
+ <button class="green" onclick="completeDay()">
+ سجل إنجاز اليوم ✓
+ </button>
+ <button class="secondary" onclick="resetData()">
+ إعادة ضبط العداد
+ </button>
+</div>
+
+<div class="card">
+ <h3>🎯 تحدي اليوم</h3>
+ <div class="task">
+  <input type="checkbox" id="t1">
+  <label for="t1">مارس نشاطاً تحبه</label>
+ </div>
+ <div class="task">
+  <input type="checkbox" id="t2">
+  <label for="t2">اقرأ 10 دقائق</label>
+ </div>
+ <div class="task">
+  <input type="checkbox" id="t3">
+  <label for="t3">ابتعد عن المشتتات</label>
+ </div>
+ <div class="task">
+  <input type="checkbox" id="t4">
+  <label for="t4">نم في موعد مناسب</label>
+ </div>
+</div>
+
+<div class="card center">
+ <h3>💚 رسالة اليوم</h3>
+ <p class="quote" id="quote">
+ لا تستسلم، التغيير يبدأ بخطوة صغيرة.
+ </p>
+ <button class="secondary" onclick="newQuote()">
+ رسالة جديدة
+ </button>
+</div>
+
+<footer>
+ وَقْف | أنت أقوى من عاداتك 🌱
+</footer>
+
+<script>
+const quotes=[
+"لا تنتظر الظروف المثالية، ابدأ الآن.",
+"كل خطوة صغيرة تقربك من هدفك.",
+"النجاح هو الاستمرار رغم الصعوبات.",
+"أنت صاحب القرار في يومك.",
+"لا تقارن بدايتك بنهاية الآخرين.",
+"اصنع لنفسك حياة تفخر بها."
+];
+
+let start=localStorage.getItem("waqfStart");
+let completed=localStorage.getItem("waqfDone");
+
+function today(){
+ return new Date().toLocaleDateString("en-CA");
+}
+
+function update(){
+ if(!start){
+  document.getElementById("days").textContent="0";
+  return;
+ }
+ let a=new Date(start+"T00:00:00");
+ let b=new Date(today()+"T00:00:00");
+ let days=Math.max(0,Math.floor((b-a)/86400000));
+ document.getElementById("days").textContent=days;
+ document.getElementById("bar").style.width=
+ Math.min(days/7*100,100)+"%";
+ document.getElementById("target").textContent=
+ days>=7?"🎉 حققت هدف الأسبوع!": "هدفك القادم: 7 أيام";
+ document.getElementById("status").textContent=
+ completed===today()?"تم تسجيل إنجاز اليوم ✓":"ابدأ يومك بقرار جديد";
+}
+
+function completeDay(){
+ if(!start){
+  start=today();
+  localStorage.setItem("waqfStart",start);
+ }
+ completed=today();
+ localStorage.setItem("waqfDone",completed);
+ update();
+}
+
+function resetData(){
+ if(confirm("هل تريد إعادة ضبط العداد والبدء من جديد؟")){
+  localStorage.removeItem("waqfStart");
+  localStorage.removeItem("waqfDone");
+  start=null;
+  completed=null;
+  update();
+ }
+}
+
+function newQuote(){
+ document.getElementById("quote").textContent=
+ quotes[Math.floor(Math.random()*quotes.length)];
+}
+
+["t1","t2","t3","t4"].forEach(id=>{
+ let el=document.getElementById(id);
+ el.checked=localStorage.getItem(id)===today();
+ el.addEventListener("change",()=>{
+  localStorage.setItem(id,el.checked?today():"");
+ });
+});
+
+update();
+</script>
+</body>
+</html>
