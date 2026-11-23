@@ -1,175 +1,431 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#101827">
+<meta name="description" content="وقف | تحدي الالتزام وتطوير النفس">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>وقف | تحدي نفسك</title>
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;background:#101827;color:#fff;
- font-family:Arial,sans-serif;padding:20px;
-}
-header{text-align:center;padding:20px}
-header h1{font-size:35px;color:#4ade80;margin:5px}
-header p{color:#9ca3af}
-.card{
- background:#1c293b;border:1px solid #344258;
- border-radius:20px;padding:22px;margin:16px 0;
-}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#101827;--card:#1c293b;--bd:#344258;--g:#4ade80;--g2:#22c55e;--m:#9ca3af;--t:#fff}
+html,body{background:var(--bg);color:var(--t);min-height:100%}
+body{font-family:"Segoe UI",Tahoma,Arial,sans-serif;padding:20px 16px calc(90px + env(safe-area-inset-bottom));padding-top:calc(20px + env(safe-area-inset-top));overflow-x:hidden}
+main{max-width:520px;margin:auto}
+header{text-align:center;padding:14px 10px}
+header h1{font-size:35px;color:var(--g);margin:5px}
+header p{color:var(--m)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:22px;margin:16px 0}
 .center{text-align:center}
-.days{font-size:65px;color:#4ade80;font-weight:bold}
-.muted{color:#9ca3af}
-button{
- border:0;border-radius:12px;padding:14px;
- font-size:16px;font-weight:bold;cursor:pointer;
-}
-.green{background:#22c55e;color:#07130b;width:100%}
-.secondary{background:#334155;color:white;width:100%;margin-top:10px}
-.progress{
- height:12px;background:#334155;border-radius:20px;
- overflow:hidden;margin:15px 0
-}
-.bar{height:100%;width:0;background:#4ade80;transition:.3s}
-.task{
- display:flex;align-items:center;gap:12px;
- padding:12px 0;border-bottom:1px solid #344258
-}
-.task input{width:20px;height:20px;accent-color:#22c55e}
-.quote{color:#86efac;font-size:18px;line-height:1.7}
-footer{text-align:center;color:#64748b;padding:25px}
+.muted{color:var(--m)}
+.days{font-size:65px;color:var(--g);font-weight:bold;line-height:1.1}
+.units{display:flex;gap:10px;margin:14px 0}
+.units div{flex:1;background:#243349;border-radius:14px;padding:10px 4px}
+.units b{display:block;font-size:24px;color:var(--g)}
+.units span{color:var(--m);font-size:13px}
+.progress{height:12px;background:#334155;border-radius:20px;overflow:hidden;margin:15px 0}
+.bar{height:100%;width:0;background:var(--g);transition:.4s}
+button{font-family:inherit;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer;transition:transform .15s}
+button:active{transform:scale(.97)}
+button:disabled{opacity:.45;cursor:default}
+.green{background:var(--g2);color:#07130b;width:100%}
+.green.done{background:#16a34a;color:#fff}
+.secondary{background:#334155;color:#fff;width:100%;margin-top:10px}
+.danger{background:#dc2626;color:#fff}
+h3{margin-bottom:12px}
+label.l{display:block;color:var(--m);font-size:14px;margin:12px 0 6px}
+input[type=text]{width:100%;background:#243349;border:1px solid var(--bd);color:#fff;border-radius:12px;padding:13px;font:inherit;font-size:16px}
+input[type=text]:focus{outline:2px solid var(--g2)}
+.chips{display:flex;gap:8px;margin:6px 0 14px}
+.chips button{flex:1;padding:12px 0;background:#243349;color:var(--m);border:1px solid var(--bd)}
+.chips button.on{background:var(--g2);color:#07130b;border:0}
+.task{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.task:last-child{border-bottom:0}
+.task input{width:22px;height:22px;accent-color:var(--g2);flex-shrink:0}
+.task label{flex:1;font-size:17px;word-break:break-word}
+.task.ok label{color:var(--m);text-decoration:line-through}
+.task .x{background:none;color:var(--m);padding:6px 10px;font-size:18px}
+.addrow{display:flex;gap:8px;margin-top:14px}
+.addrow button{background:var(--g2);color:#07130b;padding:0 18px;flex-shrink:0}
+.quote{color:#86efac;font-size:18px;line-height:1.8}
+.calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.round{width:42px;height:42px;border-radius:50%;background:#243349;color:#fff;padding:0;font-size:22px;border:1px solid var(--bd)}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wk{text-align:center;color:var(--m);font-size:13px;margin-bottom:6px}
+.day{aspect-ratio:1;border-radius:12px;background:#243349;color:#fff;padding:0;font-size:15px;font-weight:normal;border:1px solid transparent}
+.day.in{border-color:#3b6e55;background:#1e3a34}
+.day.done{background:var(--g2);color:#07130b;font-weight:bold}
+.day.today{box-shadow:0 0 0 2px #60a5fa}
+.day.off{opacity:.35;cursor:default}
+.legend{display:flex;justify-content:center;gap:14px;margin-top:14px;font-size:12px;color:var(--m);flex-wrap:wrap}
+.legend u{display:inline-block;width:11px;height:11px;border-radius:3px;margin-left:5px;vertical-align:middle}
+.sgrid,.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px 10px;text-align:center}
+.st b{display:block;font-size:30px;color:var(--g)}
+.st span{color:var(--m);font-size:14px}
+.bdg{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px 10px;text-align:center;opacity:.4;filter:grayscale(1)}
+.bdg.on{opacity:1;filter:none;border-color:var(--g2)}
+.bdg i{font-style:normal;font-size:34px;display:block}
+.bdg b{display:block;margin:6px 0 2px}
+.bdg small{color:var(--m);font-size:12px}
+.sec{margin:22px 0 10px;font-size:17px}
+.view{display:none}
+.view.active{display:block;animation:up .35s ease both}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+nav{position:fixed;bottom:0;right:0;left:0;display:flex;background:#0b1220;border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:5}
+nav button{flex:1;background:none;color:var(--m);font-size:12px;font-weight:normal;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px}
+nav button span{font-size:22px}
+nav button.on{color:var(--g)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:24px;z-index:10}
+.modal.show{display:flex}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:22px;max-width:360px;width:100%}
+.box p{line-height:1.9;margin-bottom:16px}
+.row{display:flex;gap:10px}
+.row button{flex:1}
+#toast{position:fixed;bottom:90px;left:50%;transform:translate(-50%,20px);background:var(--g2);color:#07130b;font-weight:bold;padding:11px 20px;border-radius:30px;opacity:0;pointer-events:none;transition:.3s;z-index:11;max-width:90%;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:#64748b;padding:20px}
+@media(max-width:340px){.days{font-size:52px}.chips button{font-size:14px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-
+<main>
 <header>
- <h1>🌱 وَقْف</h1>
- <p>كل يوم فرصة جديدة لتكون أقوى</p>
+  <h1>🌱 وَقْف</h1>
+  <p id="chName">كل يوم فرصة جديدة لتكون أقوى</p>
 </header>
 
-<div class="card center">
- <p class="muted">أيام الالتزام</p>
- <div class="days" id="days">0</div>
- <p class="muted">يوم من التغيير 💪</p>
- <div class="progress"><div class="bar" id="bar"></div></div>
- <p id="target">هدفك القادم: 7 أيام</p>
-</div>
+<!-- الرئيسية -->
+<section id="home" class="view active">
+  <div class="card center">
+    <p class="muted">أيام الالتزام</p>
+    <div class="days" id="days">0</div>
+    <p class="muted">يوم من التغيير 💪</p>
+    <div class="units">
+      <div><b id="hrs">0</b><span>ساعة</span></div>
+      <div><b id="mins">0</b><span>دقيقة</span></div>
+    </div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <p id="target">هدفك القادم: 7 أيام</p>
+  </div>
 
-<div class="card center">
- <h3>🔥 إنجاز اليوم</h3>
- <p id="status">ابدأ يومك بقرار جديد</p>
- <button class="green" onclick="completeDay()">
- سجل إنجاز اليوم ✓
- </button>
- <button class="secondary" onclick="resetData()">
- إعادة ضبط العداد
- </button>
-</div>
+  <div class="card center">
+    <h3>🔥 إنجاز اليوم</h3>
+    <p id="status" class="muted" style="margin-bottom:14px">ابدأ يومك بقرار جديد</p>
+    <button class="green" id="doneBtn">سجل إنجاز اليوم ✓</button>
+    <button class="secondary" id="resetBtn">إعادة ضبط العداد</button>
+  </div>
 
-<div class="card">
- <h3>🎯 تحدي اليوم</h3>
- <div class="task">
-  <input type="checkbox" id="t1">
-  <label for="t1">مارس نشاطاً تحبه</label>
- </div>
- <div class="task">
-  <input type="checkbox" id="t2">
-  <label for="t2">اقرأ 10 دقائق</label>
- </div>
- <div class="task">
-  <input type="checkbox" id="t3">
-  <label for="t3">ابتعد عن المشتتات</label>
- </div>
- <div class="task">
-  <input type="checkbox" id="t4">
-  <label for="t4">نم في موعد مناسب</label>
- </div>
-</div>
+  <div class="card center">
+    <h3>💚 رسالة اليوم</h3>
+    <p class="quote" id="quote"></p>
+    <button class="secondary" id="quoteBtn">رسالة جديدة</button>
+  </div>
 
-<div class="card center">
- <h3>💚 رسالة اليوم</h3>
- <p class="quote" id="quote">
- لا تستسلم، التغيير يبدأ بخطوة صغيرة.
- </p>
- <button class="secondary" onclick="newQuote()">
- رسالة جديدة
- </button>
-</div>
+  <div class="card">
+    <h3>⚙️ تحدٍّ جديد</h3>
+    <label class="l" for="nameIn">اسم التحدي</label>
+    <input id="nameIn" type="text" maxlength="40" placeholder="مثال: التوقف عن التدخين">
+    <label class="l">مدة التحدي</label>
+    <div class="chips" id="goals">
+      <button data-g="7">7 أيام</button>
+      <button data-g="30">30 يومًا</button>
+      <button data-g="90">90 يومًا</button>
+    </div>
+    <button class="green" id="startBtn">ابدأ التحدي الآن</button>
+    <button class="secondary" id="installBtn" style="display:none">📲 تثبيت التطبيق على الشاشة الرئيسية</button>
+  </div>
+</section>
 
-<footer>
- وَقْف | أنت أقوى من عاداتك 🌱
-</footer>
+<!-- المهام -->
+<section id="tasks" class="view">
+  <div class="card">
+    <h3>🎯 تحدي اليوم</h3>
+    <p class="muted" id="taskInfo" style="margin-bottom:6px"></p>
+    <div class="progress"><div class="bar" id="taskBar"></div></div>
+    <div id="taskList"></div>
+    <div class="addrow">
+      <input id="taskIn" type="text" maxlength="60" placeholder="أضف مهمة جديدة...">
+      <button id="taskAdd">إضافة</button>
+    </div>
+  </div>
+</section>
+
+<!-- التقويم -->
+<section id="calendar" class="view">
+  <div class="card">
+    <div class="calhead">
+      <button class="round" id="next" aria-label="الشهر التالي">›</button>
+      <b id="month"></b>
+      <button class="round" id="prev" aria-label="الشهر السابق">‹</button>
+    </div>
+    <div class="grid wk"><i>ح</i><i>ن</i><i>ث</i><i>ر</i><i>خ</i><i>ج</i><i>س</i></div>
+    <div class="grid" id="calDays"></div>
+    <p class="muted center" style="margin-top:12px;font-size:13px">اضغط على اليوم لتسجيل الإنجاز أو إلغائه.</p>
+    <div class="legend"><span><u style="background:#1e3a34;border:1px solid #3b6e55"></u>ضمن التحدي</span><span><u style="background:#22c55e"></u>تم الإنجاز</span><span><u style="box-shadow:0 0 0 2px #60a5fa"></u>اليوم</span></div>
+  </div>
+</section>
+
+<!-- الإحصائيات والإنجازات -->
+<section id="stats" class="view">
+  <h3 class="sec">📊 إحصائيات التقدم</h3>
+  <div class="sgrid" id="statGrid"></div>
+  <h3 class="sec">🏆 الإنجازات</h3>
+  <p class="muted" id="badgeCount" style="margin-bottom:10px;font-size:14px"></p>
+  <div class="bgrid" id="badgeGrid"></div>
+  <footer>وَقْف | أنت أقوى من عاداتك 🌱</footer>
+</section>
+</main>
+
+<nav>
+  <button data-v="home" class="on"><span>🏠</span>الرئيسية</button>
+  <button data-v="tasks"><span>🎯</span>المهام</button>
+  <button data-v="calendar"><span>📅</span>التقويم</button>
+  <button data-v="stats"><span>📊</span>إنجازاتي</button>
+</nav>
+
+<div id="modal" class="modal"><div class="box">
+  <p id="mText"></p>
+  <div class="row"><button class="danger" id="mYes">نعم، تأكيد</button><button class="secondary" style="margin-top:0" id="mNo">إلغاء</button></div>
+</div></div>
+<div id="toast"></div>
 
 <script>
-const quotes=[
-"لا تنتظر الظروف المثالية، ابدأ الآن.",
-"كل خطوة صغيرة تقربك من هدفك.",
-"النجاح هو الاستمرار رغم الصعوبات.",
-"أنت صاحب القرار في يومك.",
-"لا تقارن بدايتك بنهاية الآخرين.",
-"اصنع لنفسك حياة تفخر بها."
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const KEY='waqf_v2',DAY=864e5;
+const DEF_TASKS=[{id:'t1',text:'مارس نشاطاً تحبه'},{id:'t2',text:'اقرأ 10 دقائق'},{id:'t3',text:'ابتعد عن المشتتات'},{id:'t4',text:'نم في موعد مناسب'}];
+const def={name:'',start:null,goal:7,checks:{},tasks:DEF_TASKS,taskDone:{},restarts:0,record:0,past:0,badges:[]};
+const sod=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()};
+const key=t=>{const x=new Date(t);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')};
+const todayKey=()=>key(Date.now());
+
+let S=load();
+function load(){
+  let o=null;
+  try{o=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+  if(o)return Object.assign({},def,o);
+  // ترحيل بيانات النسخة القديمة إن وجدت
+  const s={...def,checks:{},taskDone:{},tasks:DEF_TASKS.map(t=>({...t}))};
+  try{
+    const old=localStorage.getItem('waqfStart');
+    if(old){
+      s.start=new Date(old+'T00:00:00').getTime();
+      if(localStorage.getItem('waqfDone')===old||localStorage.getItem('waqfDone')===todayKey())s.checks[todayKey()]=true;
+      const tk=todayKey(),done=['t1','t2','t3','t4'].filter(id=>localStorage.getItem(id)===tk);
+      if(done.length)s.taskDone[tk]=done;
+    }
+  }catch(e){}
+  return s;
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+const QUOTES=[
+ 'لا تنتظر الظروف المثالية، ابدأ الآن.','كل خطوة صغيرة تقربك من هدفك.','النجاح هو الاستمرار رغم الصعوبات.',
+ 'أنت صاحب القرار في يومك.','لا تقارن بدايتك بنهاية الآخرين.','اصنع لنفسك حياة تفخر بها.',
+ 'الانضباط هو الجسر بين الهدف والإنجاز.','سقوطك ليس النهاية، التوقف هو النهاية.','اليوم الذي تلتزم فيه يصنع الغد الذي تحلم به.',
+ 'التقدم البطيء أفضل من عدم التقدم.','عاداتك اليوم ترسم شخصيتك غدًا.','اصبر على التعب، فالنتيجة تستحق.',
+ 'كن فخورًا بكل يوم تجاوزته.','القرار الصغير اليوم يغيّر مسار السنة.','الإصرار يحوّل المستحيل إلى عادة.',
+ 'أنت أقوى من رغبة تستمر دقائق.','كل يوم نظيف هو انتصار يستحق الاحتفال.'
+];
+let qi=Math.floor(Date.now()/DAY)%QUOTES.length;
+
+const BADGES=[
+ ['🌱','بداية الطريق','أكمل يومًا كاملًا',s=>s.days>=1],
+ ['🔥','ثلاثة أيام','مرّت 3 أيام',s=>s.days>=3],
+ ['⭐','أسبوع كامل','مرّت 7 أيام',s=>s.days>=7],
+ ['💎','أسبوعان','مرّت 14 يومًا',s=>s.days>=14],
+ ['👑','شهر كامل','مرّت 30 يومًا',s=>s.days>=30],
+ ['🚀','ستون يومًا','مرّت 60 يومًا',s=>s.days>=60],
+ ['🏆','تسعون يومًا','مرّت 90 يومًا',s=>s.days>=90],
+ ['✅','أول إنجاز','سجّل إنجاز يوم',s=>s.n>=1],
+ ['⚡','سلسلة 7','7 أيام إنجاز متتالية',s=>s.best>=7],
+ ['📋','يوم المهام','أنجز كل مهام يوم كامل',s=>s.allTasks],
+ ['🎯','أنهيت هدفك','أكمل مدة التحدي',s=>!!S.start&&s.days>=S.goal],
+ ['💪','لا تستسلم','ابدأ من جديد بعد تعثّر',()=>S.restarts>=1]
 ];
 
-let start=localStorage.getItem("waqfStart");
-let completed=localStorage.getItem("waqfDone");
-
-function today(){
- return new Date().toLocaleDateString("en-CA");
+function stats(){
+  const keys=Object.keys(S.checks).filter(k=>S.checks[k]).sort();
+  let best=0,run=0,prev=null;
+  keys.forEach(k=>{const t=new Date(k+'T00:00:00').getTime();run=prev!==null&&Math.round((t-prev)/DAY)===1?run+1:1;prev=t;best=Math.max(best,run)});
+  let cur=0,t=sod(Date.now());
+  if(!S.checks[key(t)])t=sod(t-DAY/2);
+  while(S.checks[key(t)]){cur++;t=sod(t-DAY/2)}
+  const el=S.start?Date.now()-S.start:-1;
+  const days=el>=0?Math.floor(el/DAY):0;
+  const allTasks=Object.values(S.taskDone).some(a=>S.tasks.length>0&&S.tasks.every(x=>a.includes(x.id)));
+  return{n:keys.length,best,cur,days,allTasks};
 }
 
-function update(){
- if(!start){
-  document.getElementById("days").textContent="0";
-  return;
- }
- let a=new Date(start+"T00:00:00");
- let b=new Date(today()+"T00:00:00");
- let days=Math.max(0,Math.floor((b-a)/86400000));
- document.getElementById("days").textContent=days;
- document.getElementById("bar").style.width=
- Math.min(days/7*100,100)+"%";
- document.getElementById("target").textContent=
- days>=7?"🎉 حققت هدف الأسبوع!": "هدفك القادم: 7 أيام";
- document.getElementById("status").textContent=
- completed===today()?"تم تسجيل إنجاز اليوم ✓":"ابدأ يومك بقرار جديد";
+let tt;
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2600)}
+function ask(text,yes){$('#mText').textContent=text;$('#modal').classList.add('show');$('#mYes').onclick=()=>{$('#modal').classList.remove('show');yes()};$('#mNo').onclick=()=>$('#modal').classList.remove('show')}
+
+function tick(){
+  const el=S.start?Math.max(0,Date.now()-S.start):0;
+  const days=Math.floor(el/DAY);
+  $('#days').textContent=days;
+  $('#hrs').textContent=Math.floor(el%DAY/36e5);
+  $('#mins').textContent=Math.floor(el%36e5/6e4);
+  const p=S.start?Math.min(1,el/(S.goal*DAY)):0;
+  $('#bar').style.width=(p*100)+'%';
+  $('#target').textContent=!S.start?'هدفك: '+S.goal+' أيام — اضغط ابدأ':(days>=S.goal?'🎉 حققت هدف '+S.goal+' يومًا!':'هدفك القادم: '+S.goal+' يومًا ('+Math.floor(p*100)+'%)');
 }
 
-function completeDay(){
- if(!start){
-  start=today();
-  localStorage.setItem("waqfStart",start);
- }
- completed=today();
- localStorage.setItem("waqfDone",completed);
- update();
+function renderHome(){
+  $('#chName').textContent=S.name||'كل يوم فرصة جديدة لتكون أقوى';
+  if(document.activeElement!==$('#nameIn'))$('#nameIn').value=S.name;
+  $$('#goals button').forEach(b=>b.classList.toggle('on',+b.dataset.g===S.goal));
+  $('#quote').textContent=QUOTES[qi];
+  const k=todayKey(),done=!!S.checks[k];
+  const b=$('#doneBtn');
+  b.classList.toggle('done',done);
+  b.textContent=done?'✓ تم تسجيل اليوم (اضغط للتراجع)':'سجل إنجاز اليوم ✓';
+  $('#status').textContent=done?'أحسنت! يوم جديد من الإنجاز ✓':'ابدأ يومك بقرار جديد';
+  $('#startBtn').textContent=S.start?'إعادة البدء بتحدٍّ جديد':'ابدأ التحدي الآن';
+  $('#resetBtn').disabled=!S.start;
 }
 
-function resetData(){
- if(confirm("هل تريد إعادة ضبط العداد والبدء من جديد؟")){
-  localStorage.removeItem("waqfStart");
-  localStorage.removeItem("waqfDone");
-  start=null;
-  completed=null;
-  update();
- }
+function renderTasks(){
+  const k=todayKey(),done=S.taskDone[k]||[];
+  const total=S.tasks.length,n=S.tasks.filter(t=>done.includes(t.id)).length;
+  $('#taskInfo').textContent=total?('أنجزت '+n+' من '+total+' مهام اليوم'):'لا توجد مهام، أضف مهمتك الأولى.';
+  $('#taskBar').style.width=(total?n/total*100:0)+'%';
+  const list=$('#taskList');list.innerHTML='';
+  S.tasks.forEach(t=>{
+    const row=document.createElement('div');row.className='task'+(done.includes(t.id)?' ok':'');
+    const cb=document.createElement('input');cb.type='checkbox';cb.id='c_'+t.id;cb.checked=done.includes(t.id);
+    cb.onchange=()=>{
+      const cur=S.taskDone[k]||[];
+      S.taskDone[k]=cb.checked?[...new Set([...cur,t.id])]:cur.filter(x=>x!==t.id);
+      save();renderTasks();renderBadges(true);renderStats();
+    };
+    const lb=document.createElement('label');lb.htmlFor=cb.id;lb.textContent=t.text;
+    const x=document.createElement('button');x.className='x';x.textContent='✕';x.setAttribute('aria-label','حذف المهمة');
+    x.onclick=()=>ask('حذف المهمة «'+t.text+'»؟',()=>{S.tasks=S.tasks.filter(z=>z.id!==t.id);save();renderTasks()});
+    row.append(cb,lb,x);list.append(row);
+  });
 }
 
-function newQuote(){
- document.getElementById("quote").textContent=
- quotes[Math.floor(Math.random()*quotes.length)];
+let cur=new Date();cur.setDate(1);
+function renderCal(){
+  const y=cur.getFullYear(),m=cur.getMonth(),today=sod(Date.now());
+  $('#month').textContent=cur.toLocaleDateString('ar',{month:'long',year:'numeric'});
+  const first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();
+  let h='';
+  for(let i=0;i<first;i++)h+='<i></i>';
+  const s0=S.start?sod(S.start):null;
+  for(let d=1;d<=n;d++){
+    const t=new Date(y,m,d).getTime(),k=key(t);
+    let c='day',can=false;
+    if(s0!==null){const i=Math.round((t-s0)/DAY);if(i>=0&&i<S.goal)c+=' in';can=i>=0&&t<=today}
+    if(S.checks[k])c+=' done';
+    if(t===today)c+=' today';
+    if(!can)c+=' off';
+    h+=`<button class="${c}" data-k="${k}" data-ok="${can?1:0}">${d}</button>`;
+  }
+  $('#calDays').innerHTML=h;
 }
 
-["t1","t2","t3","t4"].forEach(id=>{
- let el=document.getElementById(id);
- el.checked=localStorage.getItem(id)===today();
- el.addEventListener("change",()=>{
-  localStorage.setItem(id,el.checked?today():"");
- });
+function renderBadges(announce){
+  const st=stats();let got=0,html='';
+  BADGES.forEach((b,i)=>{
+    const ok=b[3](st);if(ok)got++;
+    if(ok&&announce&&!S.badges.includes(i)){S.badges.push(i);save();toast('🎉 إنجاز جديد: '+b[1])}
+    html+=`<div class="bdg ${ok?'on':''}"><i>${b[0]}</i><b>${b[1]}</b><small>${b[2]}</small></div>`;
+  });
+  $('#badgeGrid').innerHTML=html;
+  $('#badgeCount').textContent='حققت '+got+' من '+BADGES.length+' إنجازًا';
+}
+
+function renderStats(){
+  const st=stats(),k=todayKey(),done=(S.taskDone[k]||[]).filter(id=>S.tasks.some(t=>t.id===id)).length;
+  const rate=S.start?Math.min(100,Math.round(st.n/(st.days+1)*100)):0;
+  const items=[
+    [st.days,'أيام الالتزام'],[st.n,'أيام الإنجاز المسجلة'],
+    [st.cur,'السلسلة الحالية'],[st.best,'أفضل سلسلة'],
+    [rate+'%','نسبة الإنجاز'],[Math.max(S.record,st.days),'أطول التزام'],
+    [done+'/'+S.tasks.length,'مهام اليوم'],[S.restarts,'مرات إعادة البدء']
+  ];
+  $('#statGrid').innerHTML=items.map(([v,l])=>`<div class="st"><b>${v}</b><span>${l}</span></div>`).join('');
+}
+
+function renderAll(announce=true){renderHome();renderTasks();renderCal();renderBadges(announce);renderStats();tick()}
+
+// التنقل
+$$('nav button').forEach(b=>b.onclick=()=>{
+  $$('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  $$('.view').forEach(v=>v.classList.toggle('active',v.id===b.dataset.v));
+  window.scrollTo({top:0,behavior:'smooth'});
 });
 
-update();
+// اسم التحدي
+$('#nameIn').addEventListener('input',e=>{S.name=e.target.value.trim();save();$('#chName').textContent=S.name||'كل يوم فرصة جديدة لتكون أقوى'});
+
+// مدة التحدي
+$$('#goals button').forEach(b=>b.onclick=()=>{S.goal=+b.dataset.g;save();renderAll();toast('تم اختيار تحدي '+S.goal+(S.goal===30?' يومًا':S.goal===90?' يومًا':' أيام'))});
+
+// بدء / إعادة
+function begin(restart){
+  if(restart){
+    const d=Math.floor((Date.now()-S.start)/DAY);
+    S.record=Math.max(S.record,d);
+    S.past+=Object.keys(S.checks).length;S.checks={};S.restarts++;
+  }
+  S.start=Date.now();save();renderAll();
+  toast(restart?'بداية جديدة! أنت قادر 💪':'انطلق التحدي! 🚀');
+}
+$('#startBtn').onclick=()=>S.start
+  ?ask('سيتم تصفير العداد ومسح أيام الإنجاز الحالية وبدء التحدي من الآن. هل أنت متأكد؟',()=>begin(true))
+  :begin(false);
+$('#resetBtn').onclick=()=>ask('هل تريد إعادة ضبط العداد والبدء من جديد؟',()=>begin(true));
+
+// إنجاز اليوم
+$('#doneBtn').onclick=()=>{
+  const k=todayKey();
+  if(!S.start){S.start=Date.now()}
+  if(S.checks[k])delete S.checks[k];else S.checks[k]=true;
+  save();renderAll();
+  if(S.checks[k])toast('أحسنت! يوم جديد من الإنجاز ✓');
+};
+
+// الرسائل
+$('#quoteBtn').onclick=()=>{let n;do{n=Math.floor(Math.random()*QUOTES.length)}while(n===qi&&QUOTES.length>1);qi=n;$('#quote').textContent=QUOTES[qi]};
+
+// إضافة مهمة
+function addTask(){
+  const v=$('#taskIn').value.trim();
+  if(!v)return toast('اكتب نص المهمة أولًا');
+  S.tasks.push({id:'u'+Date.now(),text:v});$('#taskIn').value='';save();renderTasks();
+}
+$('#taskAdd').onclick=addTask;
+$('#taskIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addTask()}});
+
+// التقويم
+$('#calDays').addEventListener('click',e=>{
+  const b=e.target.closest('.day');if(!b)return;
+  if(b.dataset.ok!=='1')return toast(S.start?'يمكنك التسجيل من يوم البداية حتى اليوم فقط':'ابدأ التحدي أولًا');
+  const k=b.dataset.k;if(S.checks[k])delete S.checks[k];else S.checks[k]=true;
+  save();renderAll();
+});
+$('#prev').onclick=()=>{cur.setMonth(cur.getMonth()-1);renderCal()};
+$('#next').onclick=()=>{cur.setMonth(cur.getMonth()+1);renderCal()};
+
+// زر التثبيت
+let dp=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('#installBtn').style.display='block'});
+$('#installBtn').onclick=async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;$('#installBtn').style.display='none'};
+window.addEventListener('appinstalled',()=>{$('#installBtn').style.display='none';toast('تم تثبيت التطبيق ✓')});
+
+renderAll(false);
+setInterval(tick,1000);
+setInterval(()=>renderAll(true),60000);
+
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}))}
 </script>
 </body>
 </html>
